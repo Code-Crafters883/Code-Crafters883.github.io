@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Card</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Dancing+Script:wght@400;700&amp;display=swap" rel="stylesheet">
+    <style>
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-dancing { font-family: 'Dancing Script', cursive; }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes pulse-heart {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+        }
+
+        @keyframes sparkle {
+          0%, 100% { opacity: 0; transform: scale(0); }
+          50% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slide-up {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes confetti-fall {
+          0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-pulse-heart { animation: pulse-heart 1.5s ease-in-out infinite; }
+        .animate-sparkle { animation: sparkle 2s ease-in-out infinite; }
+        .animate-slide-up { animation: slide-up 0.8s ease-out forwards; }
+
+        .page-container {
+          opacity: 0;
+          transform: scale(0.95);
+          transition: all 0.5s ease-out;
+        }
+
+        .page-container.active {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        .confetti {
+          position: fixed;
+          width: 10px;
+          height: 10px;
+          top: -10px;
+          animation: confetti-fall 3s linear forwards;
+        }
+
+        .btn-response {
+          transition: all 0.3s ease;
+        }
+
+        .btn-response:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+    </style>
+    <style>body { box-sizing: border-box; }</style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+<body class="h-full">
+<div id="app" class="h-full w-full overflow-auto" style="background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 50%, #1a0a0a 100%);"><!-- Floating Hearts Background -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden" id="floating-hearts">
+        <svg class="absolute animate-float" style="left: 5%; top: 20%; animation-delay: 0s;" width="30" height="30" viewbox="0 0 24 24" fill="#ff6b8a" opacity="0.3"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        <svg class="absolute animate-float" style="left: 85%; top: 15%; animation-delay: 0.5s;" width="25" height="25" viewbox="0 0 24 24" fill="#ff8fa3" opacity="0.4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        <svg class="absolute animate-float" style="left: 15%; top: 70%; animation-delay: 1s;" width="20" height="20" viewbox="0 0 24 24" fill="#ffb3c1" opacity="0.3"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        <svg class="absolute animate-float" style="left: 90%; top: 60%; animation-delay: 1.5s;" width="35" height="35" viewbox="0 0 24 24" fill="#ff6b8a" opacity="0.25"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        <svg class="absolute animate-float" style="left: 50%; top: 85%; animation-delay: 2s;" width="28" height="28" viewbox="0 0 24 24" fill="#ff8fa3" opacity="0.35"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+    </div><!-- Page Container -->
+    <div class="relative min-h-full flex flex-col items-center justify-center p-6"><!-- Page 0: Welcome -->
+        <div id="page-0" class="page-container active max-w-lg w-full text-center">
+            <div class="bg-gradient-to-br from-rose-900/80 to-pink-900/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-rose-500/30">
+                <div class="animate-pulse-heart mb-6">
+                    <svg class="w-24 h-24 mx-auto" viewbox="0 0 24 24" fill="#ff6b8a"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </div>
+                <h1 id="welcome-name" class="font-dancing text-4xl md:text-5xl text-rose-200 mb-4">Dear MP</h1>
+                <p class="font-playfair text-rose-300 text-lg mb-8">Let me take you on a journey through the week of love...</p><button onclick="goToPage(1)" class="btn-response bg-gradient-to-r from-rose-500 to-pink-500 text-white font-playfair px-8 py-4 rounded-full text-lg shadow-lg hover:from-rose-400 hover:to-pink-400"> Begin Our Story 💕 </button>
+            </div>
+        </div><!-- Page 1: Rose Day -->
+        <div id="page-1" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-red-900/80 to-rose-900/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-red-500/30">
+                <div class="text-6xl mb-4 animate-float">
+                    🌹
+                </div><span class="text-rose-300 font-playfair text-sm tracking-widest"></span>
+                <h2 class="font-dancing text-4xl md:text-5xl text-rose-100 mt-2 mb-4">Rose Day</h2>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-rose-400 to-transparent mx-auto mb-6"></div>
+                <p class="font-playfair text-rose-200 text-lg leading-relaxed mb-8">Every petal says “I like you,”
+                    It may wilt in a few days,
+                    but my dramatic love for you? </p>
+                <p class="font-playfair text-rose-200 text-lg leading-relaxed mb-8">
+                That stays permanently upgraded. 🌹😎</p>
+                <div class="flex justify-center gap-4"><button onclick="goToPage(0)" class="text-rose-400 hover:text-rose-300 font-playfair">← Back</button> <button onclick="goToPage(2)" class="btn-response bg-gradient-to-r from-red-500 to-rose-500 text-white font-playfair px-6 py-3 rounded-full shadow-lg"> Next Day → </button>
+                </div>
+            </div>
+        </div><!-- Page 2: Propose Day -->
+        <div id="page-2" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-purple-900/80 to-pink-900/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-purple-500/30">
+                <div class="text-6xl mb-4 animate-float">
+                    💍
+                </div><span class="text-purple-300 font-playfair text-sm tracking-widest"></span>
+                <h2 class="font-dancing text-4xl md:text-5xl text-purple-100 mt-2 mb-4">Propose Day</h2>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-purple-400 to-transparent mx-auto mb-6"></div>
+                <p class="font-playfair text-purple-200 text-lg leading-relaxed mb-8">With a slightly trembling heart (okay, very trembling 😅) and a hopeful soul,
+                    I finally gather the courage to ask —
+                    will you let me be the one who loves you endlessly…
+                    and steals your fries forever? ❤️🍟</p>
+                <div class="flex justify-center gap-4"><button onclick="goToPage(1)" class="text-purple-400 hover:text-purple-300 font-playfair">← Back</button> <button onclick="goToPage(3)" class="btn-response bg-gradient-to-r from-purple-500 to-pink-500 text-white font-playfair px-6 py-3 rounded-full shadow-lg"> Next Day → </button>
+                </div>
+            </div>
+        </div><!-- Page 3: Chocolate Day -->
+        <div id="page-3" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-amber-900/80 to-orange-900/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-amber-500/30">
+                <div class="text-6xl mb-4 animate-float">
+                    🍫
+                </div><span class="text-amber-300 font-playfair text-sm tracking-widest"></span>
+                <h2 class="font-dancing text-4xl md:text-5xl text-amber-100 mt-2 mb-4">Chocolate Day</h2>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mb-6"></div>
+                <p class="font-playfair text-amber-200 text-lg leading-relaxed mb-8">Life with you is the sweetest treat…
+                    no calories, just pure happiness. 🍫❤️</p>
+                <div class="flex justify-center gap-4"><button onclick="goToPage(2)" class="text-amber-400 hover:text-amber-300 font-playfair">← Back</button> <button onclick="goToPage(4)" class="btn-response bg-gradient-to-r from-amber-500 to-orange-500 text-white font-playfair px-6 py-3 rounded-full shadow-lg"> Next Day → </button>
+                </div>
+            </div>
+        </div><!-- Page 4: Teddy Day -->
+        <div id="page-4" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-pink-900/80 to-rose-900/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-pink-500/30">
+                <div class="text-6xl mb-4 animate-float">
+                    🧸
+                </div><span class="text-pink-300 font-playfair text-sm tracking-widest"></span>
+                <h2 class="font-dancing text-4xl md:text-5xl text-pink-100 mt-2 mb-4">Teddy Day</h2>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-pink-400 to-transparent mx-auto mb-6"></div>
+                <p class="font-playfair text-pink-200 text-lg leading-relaxed mb-8">Soft and cuddly like a teddy bear — that's how I want to make you feel: safe, warm, and forever cherished in my arms.</p>
+                <div class="flex justify-center gap-4"><button onclick="goToPage(3)" class="text-pink-400 hover:text-pink-300 font-playfair">← Back</button> <button onclick="goToPage(5)" class="btn-response bg-gradient-to-r from-pink-500 to-rose-500 text-white font-playfair px-6 py-3 rounded-full shadow-lg"> Next Day → </button>
+                </div>
+            </div>
+        </div><!-- Page 5: Promise Day -->
+        <div id="page-5" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-blue-900/80 to-indigo-900/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-blue-500/30">
+                <div class="text-6xl mb-4 animate-float">
+                    🤞
+                </div><span class="text-blue-300 font-playfair text-sm tracking-widest"></span>
+                <h2 class="font-dancing text-4xl md:text-5xl text-blue-100 mt-2 mb-4">Promise Day</h2>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent mx-auto mb-6"></div>
+                <p class="font-playfair text-blue-200 text-lg leading-relaxed mb-8">I promise to be your umbrella in storms,
+                    your coffee on sleepy mornings,
+                    and your forever partner in all of life’s crazy adventures. ☀️❤️</p>
+                <div class="flex justify-center gap-4"><button onclick="goToPage(4)" class="text-blue-400 hover:text-blue-300 font-playfair">← Back</button> <button onclick="goToPage(6)" class="btn-response bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-playfair px-6 py-3 rounded-full shadow-lg"> Next Day → </button>
+                </div>
+            </div>
+        </div><!-- Page 6: Hug Day -->
+        <div id="page-6" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-emerald-900/80 to-teal-900/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-emerald-500/30">
+                <div class="text-6xl mb-4 animate-float">
+                    🤗
+                </div><span class="text-emerald-300 font-playfair text-sm tracking-widest"></span>
+                <h2 class="font-dancing text-4xl md:text-5xl text-emerald-100 mt-2 mb-4">Hug Day</h2>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent mx-auto mb-6"></div>
+                <p class="font-playfair text-emerald-200 text-lg leading-relaxed mb-8">Every hug is a silent "I love you," a warm embrace that speaks louder than any words ever could.</p>
+                <div class="flex justify-center gap-4"><button onclick="goToPage(5)" class="text-emerald-400 hover:text-emerald-300 font-playfair">← Back</button> <button onclick="goToPage(7)" class="btn-response bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-playfair px-6 py-3 rounded-full shadow-lg"> Next Day → </button>
+                </div>
+            </div>
+        </div><!-- Page 7: Kiss Day -->
+        <div id="page-7" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-red-900/80 to-pink-900/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-red-500/30">
+                <div class="text-6xl mb-4 animate-float">
+                    💋
+                </div><span class="text-red-300 font-playfair text-sm tracking-widest"></span>
+                <h2 class="font-dancing text-4xl md:text-5xl text-red-100 mt-2 mb-4">Kiss Day</h2>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-red-400 to-transparent mx-auto mb-6"></div>
+                <p class="font-playfair text-red-200 text-lg leading-relaxed mb-8">You’re stuck with me now. ❤️</p>
+                <div class="flex justify-center gap-4"><button onclick="goToPage(6)" class="text-red-400 hover:text-red-300 font-playfair">← Back</button> <button onclick="goToPage(8)" class="btn-response bg-gradient-to-r from-red-500 to-pink-500 text-white font-playfair px-6 py-3 rounded-full shadow-lg"> Valentine's Day → </button>
+                </div>
+            </div>
+        </div><!-- Page 8: Valentine's Day - The Big Question -->
+        <div id="page-8" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-rose-900/90 to-red-900/90 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-rose-400/50">
+                <div class="animate-pulse-heart mb-4">
+                    <svg class="w-20 h-20 mx-auto" viewbox="0 0 24 24" fill="#ff6b8a"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </div><span class="text-rose-300 font-playfair text-sm tracking-widest"></span>
+                <h2 class="font-dancing text-4xl md:text-5xl text-rose-100 mt-2 mb-4">Valentine's Day</h2>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-rose-400 to-transparent mx-auto mb-6"></div>
+                <p id="final-message" class="font-dancing text-3xl md:text-4xl text-white mb-8">Will you be my Valentine?</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4"><button onclick="answerYes()" class="btn-response bg-gradient-to-r from-green-500 to-emerald-500 text-white font-playfair px-8 py-4 rounded-full text-xl shadow-lg hover:from-green-400 hover:to-emerald-400"> Yes! 💕 </button> <button onclick="answerMaybe()" class="btn-response bg-gradient-to-r from-purple-500 to-pink-500 text-white font-playfair px-8 py-4 rounded-full text-xl shadow-lg hover:from-purple-400 hover:to-pink-400"> Maybe... 🥰 </button>
+                </div><button onclick="goToPage(7)" class="text-rose-400 hover:text-rose-300 font-playfair mt-6 block mx-auto">← Back</button>
+            </div>
+        </div><!-- Page 9: Yes Response -->
+        <div id="page-9" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-pink-900/90 to-rose-900/90 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-pink-400/50">
+                <div class="text-6xl mb-4">
+                    🎉💕✨
+                </div>
+                <h2 class="font-dancing text-5xl md:text-6xl text-pink-100 mb-6">Yay!</h2>
+                <p class="font-playfair text-pink-200 text-xl leading-relaxed mb-4">Ayy! 😆💖
+
+                    Long distance might keep us apart,
+                    but nothing can stop me from annoying you!</p>
+                <p class="font-dancing text-3xl text-rose-300 mb-8">Happy Valentine’s Day, my favorite human! 💗😂</p>
+                <div class="animate-pulse-heart">
+                    <svg class="w-32 h-32 mx-auto" viewbox="0 0 24 24" fill="#ff6b8a"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </div><button onclick="goToPage(0)" class="text-pink-400 hover:text-pink-300 font-playfair mt-8 block mx-auto">Start Over 💕</button>
+            </div>
+        </div><!-- Page 10: Maybe Response -->
+        <div id="page-10" class="page-container max-w-lg w-full text-center hidden">
+            <div class="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-purple-400/50">
+                <div class="text-6xl mb-4 animate-float">
+                    🥺💜
+                </div>
+                <h2 class="font-dancing text-4xl md:text-5xl text-purple-100 mb-6">Take your time...</h2>
+                <p class="font-playfair text-purple-200 text-xl leading-relaxed mb-8">I'll wait for you, always. My heart is yours whenever you're ready. Until then, know that you're already my Valentine in my heart.</p>
+                <div class="flex flex-col gap-4"><button onclick="answerYes()" class="btn-response bg-gradient-to-r from-pink-500 to-rose-500 text-white font-playfair px-8 py-4 rounded-full text-lg shadow-lg mx-auto"> Actually... Yes! 💕 </button> <button onclick="goToPage(0)" class="text-purple-400 hover:text-purple-300 font-playfair">Read again from the start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const defaultConfig = {
+      valentine_name: 'Dear Valentine',
+      final_message: 'Will you be my Valentine?',
+      primary_color: '#ff6b8a',
+      secondary_color: '#1a0a0a',
+      text_color: '#fecdd3',
+      accent_color: '#ec4899',
+      button_color: '#f43f5e',
+      font_family: 'Playfair Display'
+    };
+
+    let currentPage = 0;
+
+    function goToPage(pageNum) {
+      const currentEl = document.getElementById(`page-${currentPage}`);
+      const nextEl = document.getElementById(`page-${pageNum}`);
+
+      if (currentEl) {
+        currentEl.classList.remove('active');
+        setTimeout(() => {
+          currentEl.classList.add('hidden');
+        }, 300);
+      }
+
+      setTimeout(() => {
+        if (nextEl) {
+          nextEl.classList.remove('hidden');
+          setTimeout(() => {
+            nextEl.classList.add('active');
+          }, 50);
+        }
+      }, 300);
+
+      currentPage = pageNum;
+    }
+
+    function createConfetti() {
+      const colors = ['#ff6b8a', '#ff8fa3', '#ffb3c1', '#ec4899', '#f472b6', '#fda4af'];
+      const container = document.getElementById('app');
+
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        container.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 5000);
+      }
+    }
+
+    function answerYes() {
+      createConfetti();
+      goToPage(9);
+    }
+
+    function answerMaybe() {
+      goToPage(10);
+    }
+
+    async function onConfigChange(config) {
+      const valentineName = config.valentine_name || defaultConfig.valentine_name;
+      const finalMessage = config.final_message || defaultConfig.final_message;
+      const fontFamily = config.font_family || defaultConfig.font_family;
+
+      const welcomeEl = document.getElementById('welcome-name');
+      if (welcomeEl) {
+        welcomeEl.textContent = valentineName;
+        welcomeEl.style.fontFamily = `${fontFamily}, 'Dancing Script', cursive`;
+      }
+
+      const finalEl = document.getElementById('final-message');
+      if (finalEl) {
+        finalEl.textContent = finalMessage;
+      }
+
+      // Apply font to all playfair elements
+      document.querySelectorAll('.font-playfair').forEach(el => {
+        el.style.fontFamily = `${fontFamily}, 'Playfair Display', serif`;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.secondary_color || defaultConfig.secondary_color,
+            set: (value) => {
+              config.secondary_color = value;
+              window.elementSdk.setConfig({ secondary_color: value });
+            }
+          },
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => config.button_color || defaultConfig.button_color,
+            set: (value) => {
+              config.button_color = value;
+              window.elementSdk.setConfig({ button_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['valentine_name', config.valentine_name || defaultConfig.valentine_name],
+        ['final_message', config.final_message || defaultConfig.final_message]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd52c8455229098',t:'MTc3MDk5NDYwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
